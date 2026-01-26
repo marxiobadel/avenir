@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Country;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Number;
 use Illuminate\Support\Str;
 
@@ -80,3 +82,33 @@ if (! function_exists('urlExists')) {
         return $headers && strpos($headers[0], '200') !== false;
     }
 }
+
+if (! function_exists('countryName')) {
+    function countryName(Country $country)
+    {
+        $frenchName = $country->nicename;
+
+        if (! app()->isLocale('fr')) {
+            return $frenchName;
+        }
+
+        // Utilisation de static pour garder les données en mémoire durant la requête
+        static $countriesData = null;
+
+        if ($countriesData === null) {
+            $countriesData = Cache::rememberForever('countries_json', function () {
+                return json_decode(file_get_contents(storage_path('countries.json')), true);
+            });
+        }
+
+        foreach ($countriesData as $data) {
+            if ($data['iso2'] === $country->iso) {
+                $frenchName = $data['translations']['fr'] ?? $frenchName;
+                break;
+            }
+        }
+
+        return $frenchName;
+    }
+}
+

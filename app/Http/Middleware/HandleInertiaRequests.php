@@ -2,8 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Resources\AuthUserResource;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
+use Illuminate\Support\Number;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -43,7 +45,15 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
-                'user' => $request->user(),
+                'user' => $request->user() ? new AuthUserResource($request->user()) : null,
+            ],
+            'isAdminSection' => $request->is('admin*'),
+            'defaultCurrency' => Number::defaultCurrency(),
+            'flash' => [
+                'info' => fn() => $request->session()->get('info'),
+                'success' => fn() => $request->session()->get('success'),
+                'error' => fn() => $request->session()->get('error'),
+                'warning' => fn() => $request->session()->get('warning'),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
