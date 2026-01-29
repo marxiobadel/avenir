@@ -166,3 +166,189 @@ export interface Shop {
     created_at: string;
     updated_at: string;
 }
+
+export interface AttributeOption {
+    id: number;
+    name: string;
+}
+
+export interface Attribute {
+    id: number;
+    name: string;
+    type: string;
+    options: AttributeOption[];
+}
+
+export interface VariantOption {
+    attribute_id: number;
+    attribute_option_id: number;
+    attribute: string;
+    option: string;
+}
+
+export interface Variant {
+    id: number;
+    sku: string;
+    price: number;
+    quantity: number;
+    is_default: boolean;
+    image: string | null;
+    options: VariantOption[];
+}
+
+export interface ProductImage {
+    id: number;
+    url: string;
+}
+
+export interface Product {
+    id: number;
+    name: string;
+    slug: string;
+
+    origin: string;
+
+    // Prices
+    base_price: number;
+    quantity: number;
+
+    weight: number;
+    height: number;
+    width: number;
+    length: number;
+
+    // Content
+    description: string | null;
+
+    // SEO
+    short_description?: string;
+    tags?: string;
+
+    // Status
+    status: 'published' | 'draft' | string;
+
+    is_favorited?: boolean;
+
+    // Images
+    default_image_id: number | string;
+    default_image: string | null;
+    images: ProductImage[];
+
+    // Relations
+    categories: Category[];
+    attributes: Attribute[];
+    variants: Variant[];
+
+    created_at: string;
+    updated_at: string;
+}
+
+export interface StockMovement {
+    id: number;
+    quantity: number;
+    type: string;
+    stock_before: number;
+    stock_after: number;
+    note?: string;
+    created_at: string;
+    user?: User;
+    product: Product;
+    variant?: {
+        id: number;
+        name: string;
+        sku: string;
+    };
+    reference?: {
+        type: string;
+        id: number;
+        label: string;
+        route_name?: string;
+    };
+}
+
+export interface CartItem {
+    id: number;
+    cart_id: number;
+    product_id: number;
+    variant_id: number | null;
+    name: string | null;
+    variant: VariantOption[] | null;
+    product: Product | null;
+    price: number;
+    quantity: number;
+    total: number;
+    image: string | null;
+}
+
+export interface Cart {
+    id: number;
+    user_id: number | null;
+    items: CartItem[];
+    total_qty: number;
+    subtotal: number;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface OrderItem {
+    id: number;
+    order_id: number;
+    product_id: number;
+    variant_id: number | null;
+    product: Product;
+    variant: VariantOption[] | null;
+    price: number;
+    quantity: number;
+    total: number;
+    image: string | null;
+}
+
+export interface Order {
+    id: number;
+    user_id: number | null;
+    user: User;
+    carrier_id: number | null;
+    carrier: Carrier | null;
+    status: string;
+    total: number;
+
+    items: OrderItem[];
+    payments: Payment[];
+
+    shipping_address: Address | Record<string, any> | null;
+    invoice_address: Address | Record<string, any> | null;
+
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Payment {
+    id: number;
+
+    // Relations
+    order_id: number;
+    user_id?: number | null;
+
+    // Identifiers
+    reference?: string | null;
+    transaction_id?: string | null;
+
+    // Payment details
+    method: string;       // e.g. "credit_card", "om", "momo"
+    provider?: string | null;
+
+    // Financial
+    amount: number;
+    currency: string;     // e.g. "XAF"
+
+    // Status
+    status: "pending" | "completed" | "failed" | "refunded" | "cancelled";
+
+    // Gateway raw data
+    details?: any;
+
+    // Dates
+    paid_at?: string | null;
+    created_at: string;
+    updated_at: string;
+}

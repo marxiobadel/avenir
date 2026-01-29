@@ -45,18 +45,18 @@ const subscribe = (callback: () => void) => {
 
 const notify = (): void => listeners.forEach((listener) => listener());
 
-const mediaQuery = (): MediaQueryList | null => {
+export const mediaQuery = (): MediaQueryList | null => {
     if (typeof window === 'undefined') return null;
 
     return window.matchMedia('(prefers-color-scheme: dark)');
 };
 
-const handleSystemThemeChange = (): void => {
+export const handleSystemThemeChange = (): void => {
     applyTheme(currentAppearance);
     notify();
 };
 
-export function initializeTheme(): void {
+export function initializeTheme(isAdminSection: boolean): void {
     if (typeof window === 'undefined') return;
 
     if (!localStorage.getItem('appearance')) {
@@ -65,7 +65,7 @@ export function initializeTheme(): void {
     }
 
     currentAppearance = getStoredAppearance();
-    applyTheme(currentAppearance);
+    applyTheme(isAdminSection ? currentAppearance : 'light');
 
     // Set up system theme change listener
     mediaQuery()?.addEventListener('change', handleSystemThemeChange);

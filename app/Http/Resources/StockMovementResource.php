@@ -22,24 +22,35 @@ class StockMovementResource extends JsonResource
             'created_at' => $this->created_at,
 
             // Relationships
-            'user' => $this->whenLoaded('user', fn () => [
+            'user' => $this->whenLoaded('user', fn() => [
                 'id' => $this->user->id,
-                'name' => $this->user->fullname,
+                'firstname' => $this->user->firstname,
+                'lastname' => $this->user->lastname,
+                'fullname' => $this->user->fullname,
             ]),
 
-            'product' => $this->whenLoaded('product', fn () => [
+            'product' => $this->whenLoaded('product', fn() => [
                 'id' => $this->product->id,
                 'name' => $this->product->name,
                 'slug' => $this->product->slug,
-                'image' => $this->product->getFirstMediaUrl('images'), // Assuming Spatie Media
+                'default_image_id' => $this->product->default_image_id,
+                'default_image' => $this->product->default_image_id
+                    ? $this->product->getMedia('images')->where('id', $this->product->default_image_id)->first()?->getUrl()
+                    : null,
+                'images' => $this->product->getMedia('images')->map(function ($media) {
+                    return [
+                        'id' => $media->id,
+                        'url' => $media->getUrl(),
+                    ];
+                }),
             ]),
 
-            'variant' => $this->whenLoaded('variant', fn () => $this->variant ? [
+            'variant' => $this->whenLoaded('variant', fn() => $this->variant ? [
                 'id' => $this->variant->id,
                 'sku' => $this->variant->sku,
                 'name' => $this->variant->options
                     ->map(function ($opt) {
-                        return $opt->attribute->name.': '.$opt->option->name;
+                        return $opt->attribute->name . ': ' . $opt->option->name;
                     })
                     ->implode(' / ') ?? 'Default',
             ] : null),
@@ -51,7 +62,7 @@ class StockMovementResource extends JsonResource
 
     private function formatReference()
     {
-        if (! $this->reference) {
+        if (!$this->reference) {
             return null;
         }
 

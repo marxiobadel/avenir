@@ -1,19 +1,19 @@
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import {
-    InputOTP,
-    InputOTPGroup,
-    InputOTPSlot,
-} from '@/components/ui/input-otp';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
+import { ROLES } from '@/data';
 import { OTP_MAX_LENGTH } from '@/hooks/use-two-factor-auth';
 import AuthLayout from '@/layouts/auth-layout';
+import { authInputClassNames } from '@/lib/utils';
 import { store } from '@/routes/two-factor/login';
 import { Form, Head } from '@inertiajs/react';
 import { REGEXP_ONLY_DIGITS } from 'input-otp';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 export default function TwoFactorChallenge() {
+    const roles: ('buyer' | 'seller')[] = ['buyer', 'seller'];
+    const [role, setRole] = useState<'buyer' | 'seller'>('buyer');
+
     const [showRecoveryInput, setShowRecoveryInput] = useState<boolean>(false);
     const [code, setCode] = useState<string>('');
 
@@ -24,18 +24,18 @@ export default function TwoFactorChallenge() {
     }>(() => {
         if (showRecoveryInput) {
             return {
-                title: 'Recovery Code',
+                title: 'Code de récupération',
                 description:
-                    'Please confirm access to your account by entering one of your emergency recovery codes.',
-                toggleText: 'login using an authentication code',
+                    "Veuillez confirmer l'accès à votre compte en saisissant l'un de vos codes de récupération d'urgence.",
+                toggleText: "Se connecter avec un code d'authentification",
             };
         }
 
         return {
-            title: 'Authentication Code',
+            title: "Code d'authentification",
             description:
-                'Enter the authentication code provided by your authenticator application.',
-            toggleText: 'login using a recovery code',
+                "Veuillez confirmer l'accès à votre compte en saisissant le code d'authentification fourni par votre application d'authentification.",
+            toggleText: "Se connecter avec un code de récupération",
         };
     }, [showRecoveryInput]);
 
@@ -45,12 +45,19 @@ export default function TwoFactorChallenge() {
         setCode('');
     };
 
+    useEffect(() => {
+        setRole((prevRole) => {
+            const otherRoles = roles.filter(r => r !== prevRole);
+            const randomIndex = Math.floor(Math.random() * otherRoles.length);
+            return otherRoles[randomIndex];
+        });
+    }, []);
+
+    const activeTheme = ROLES[role];
+
     return (
-        <AuthLayout
-            title={authConfigContent.title}
-            description={authConfigContent.description}
-        >
-            <Head title="Two-Factor Authentication" />
+        <AuthLayout role={role} isAnimatingText={false}>
+            <Head title="Authentification à deux facteurs" />
 
             <div className="space-y-6">
                 <Form
@@ -63,16 +70,14 @@ export default function TwoFactorChallenge() {
                         <>
                             {showRecoveryInput ? (
                                 <>
-                                    <Input
-                                        name="recovery_code"
+                                    <input
                                         type="text"
-                                        placeholder="Enter recovery code"
+                                        name="recovery_code"
                                         autoFocus={showRecoveryInput}
-                                        required
+                                        className={authInputClassNames(`${activeTheme.colors.ring} ${activeTheme.colors.border}`)}
+                                        placeholder="Entrez le code de récupération"
                                     />
-                                    <InputError
-                                        message={errors.recovery_code}
-                                    />
+                                    <InputError className="mt-1" message={errors.recovery_code} />
                                 </>
                             ) : (
                                 <div className="flex flex-col items-center justify-center space-y-3 text-center">
@@ -107,11 +112,11 @@ export default function TwoFactorChallenge() {
                                 className="w-full"
                                 disabled={processing}
                             >
-                                Continue
+                                Continuer
                             </Button>
 
                             <div className="text-center text-sm text-muted-foreground">
-                                <span>or you can </span>
+                                <span>ou vous pouvez </span>
                                 <button
                                     type="button"
                                     className="cursor-pointer text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"

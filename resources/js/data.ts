@@ -1,11 +1,107 @@
 import { StatusValue } from "./types";
 
-
 export interface StatusOption {
     label: string;
     value: StatusValue;
     color: string;
 }
+
+export type RoleType = 'buyer' | 'seller';
+
+export interface RoleConfig {
+    id: RoleType;
+    label: string;
+    themeColor: string;
+    // Tailwind specific classes mapping for safe purging
+    colors: {
+        bg: string;
+        bgHover: string;
+        text: string;
+        textHover: string;
+        ring: string;
+        border: string;
+        shadow: string;
+        shadowHover: string;
+        decoration: string;
+        logoBg: string;
+        logoShadow: string;
+        overlay: string;
+    };
+    content: {
+        title: string;
+        testimonial: string;
+        personName: string;
+        personRole: string;
+        personImg: string;
+    };
+    images: {
+        mobile: string;
+        desktop: string;
+    };
+}
+
+export const ROLES: Record<RoleType, RoleConfig> = {
+    buyer: {
+        id: 'buyer',
+        label: 'Acheteur',
+        themeColor: 'orange',
+        colors: {
+            bg: 'bg-orange-600',
+            bgHover: 'hover:bg-orange-700',
+            text: 'text-orange-600',
+            textHover: 'hover:text-orange-500',
+            ring: 'focus:ring-orange-100',
+            border: 'focus:border-orange-500',
+            shadow: 'shadow-orange-500/30',
+            shadowHover: 'hover:shadow-orange-500/50',
+            decoration: 'hover:decoration-orange-200',
+            logoBg: 'bg-orange-600',
+            logoShadow: 'shadow-orange-300',
+            overlay: 'bg-orange-900/40',
+        },
+        content: {
+            title: 'Le marché africain, en un clic.',
+            testimonial: '"MultiShop a transformé ma façon de consommer. Je découvre des créateurs locaux talentueux tous les jours."',
+            personName: 'Aminata Diallo',
+            personRole: 'Cliente depuis 2022',
+            personImg: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        },
+        images: {
+            mobile: 'https://images.unsplash.com/photo-1589156280159-27698a70f29e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+            desktop: 'https://images.unsplash.com/photo-1589156280159-27698a70f29e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
+        },
+    },
+    seller: {
+        id: 'seller',
+        label: 'Vendeur',
+        themeColor: 'emerald',
+        colors: {
+            bg: 'bg-emerald-600',
+            bgHover: 'hover:bg-emerald-700',
+            text: 'text-emerald-600',
+            textHover: 'hover:text-emerald-500',
+            ring: 'focus:ring-emerald-100',
+            border: 'focus:border-emerald-500',
+            shadow: 'shadow-emerald-500/30',
+            shadowHover: 'hover:shadow-emerald-500/50',
+            decoration: 'hover:decoration-emerald-200',
+            logoBg: 'bg-emerald-600',
+            logoShadow: 'shadow-emerald-300',
+            overlay: 'bg-emerald-900/40',
+        },
+        content: {
+            title: 'Développez votre business.',
+            testimonial: '"Ma boutique de tissus a touché des clients de Dakar à Nairobi. Une plateforme indispensable."',
+            personName: 'Kofi Mensah',
+            personRole: 'Vendeur Certifié',
+            personImg: 'https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        },
+        images: {
+            mobile: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+            desktop: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
+        },
+    },
+};
 
 export const languageOptions = [
     { iso: "EN", name: "Anglais" },

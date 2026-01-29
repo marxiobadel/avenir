@@ -5,60 +5,60 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Number;
 use Illuminate\Support\Str;
 
-if (! function_exists('generateUniqueRef')) {
+if (!function_exists('generateUniqueRef')) {
     function generateUniqueRef($modelClass, $column = 'reference', int $length = 8, ?string $prefix = null)
     {
         do {
-            $reference = ($prefix ?? '').Str::upper(Str::random($length));
+            $reference = ($prefix ?? '') . Str::upper(Str::random($length));
         } while ($modelClass::where($column, $reference)->exists());
 
         return $reference;
     }
 }
 
-if (! function_exists('toCurrency')) {
+if (!function_exists('toCurrency')) {
     function toCurrency(int|float $amount)
     {
         return Number::currency($amount);
     }
 }
 
-if (! function_exists('toPercentage')) {
+if (!function_exists('toPercentage')) {
     function toPercentage(int|float $number, $maxPrecision = 2)
     {
         return Number::percentage($number, maxPrecision: $maxPrecision);
     }
 }
 
-if (! function_exists('toAbbreviate')) {
+if (!function_exists('toAbbreviate')) {
     function toAbbreviate(int|float $number, $maxPrecision = 2)
     {
         return Number::abbreviate($number, maxPrecision: $maxPrecision);
     }
 }
 
-if (! function_exists('toFormat')) {
+if (!function_exists('toFormat')) {
     function toFormat(int|float $number, $maxPrecision = 2)
     {
         return Number::format($number, maxPrecision: $maxPrecision);
     }
 }
 
-if (! function_exists('plural')) {
+if (!function_exists('plural')) {
     function plural(string $value, int $count = 2)
     {
         return Str::plural($value, max($count, 1));
     }
 }
 
-if (! function_exists('generateHexColor')) {
+if (!function_exists('generateHexColor')) {
     function generateHexColor()
     {
-        return '#'.substr(str_shuffle('ABCDEF0123456789'), 0, 6);
+        return '#' . substr(str_shuffle('ABCDEF0123456789'), 0, 6);
     }
 }
 
-if (! function_exists('generateMultipleHexColors')) {
+if (!function_exists('generateMultipleHexColors')) {
     function generateMultipleHexColors($count = 1)
     {
         $colors = [];
@@ -71,7 +71,7 @@ if (! function_exists('generateMultipleHexColors')) {
     }
 }
 
-if (! function_exists('urlExists')) {
+if (!function_exists('urlExists')) {
     /**
      * Check if a URL returns a valid response (200).
      */
@@ -83,12 +83,12 @@ if (! function_exists('urlExists')) {
     }
 }
 
-if (! function_exists('countryName')) {
+if (!function_exists('countryName')) {
     function countryName(Country $country)
     {
         $frenchName = $country->nicename;
 
-        if (! app()->isLocale('fr')) {
+        if (!app()->isLocale('fr')) {
             return $frenchName;
         }
 
@@ -112,3 +112,11 @@ if (! function_exists('countryName')) {
     }
 }
 
+if (!function_exists('getCountries')) {
+    function getCountries()
+    {
+        return Cache::rememberForever('countries', function () {
+            return Country::orderBy('name')->get(['id', 'iso', 'nicename', 'name', 'phonecode']);
+        });
+    }
+}
