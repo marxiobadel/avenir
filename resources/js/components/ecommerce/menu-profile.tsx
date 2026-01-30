@@ -11,6 +11,7 @@ import { useMobileNavigation } from "@/hooks/use-mobile-navigation";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
 import { ScrollArea } from "../ui/scroll-area";
 import { useInitials } from "@/hooks/use-initials";
+import profile from "@/routes/profile";
 
 export const navItems = [
     { label: "Accueil", href: '/' },
@@ -58,7 +59,7 @@ export const MenuProfile = () => {
                             {auth.user ? (
                                 <>
                                     <Button asChild variant="ghost" className="w-full">
-                                        <Link href={"#"} className="w-full justify-start gap-2 h-9 px-2 font-normal">
+                                        <Link href={profile.index()} className="w-full justify-start gap-2 h-9 px-2 font-normal">
                                             <UserCircle className="h-4 w-4 text-stone-500" />
                                             Mon profil
                                         </Link>
@@ -140,7 +141,7 @@ export const MenuProfile = () => {
                             {auth.user ?
                                 <>
                                     <Button asChild variant="outline" className="w-full">
-                                        <Link href={'#'} className="w-full justify-start gap-3 h-10 rounded-lg text-base font-medium">
+                                        <Link href={profile.index()} className="w-full justify-start gap-3 h-10 rounded-lg text-base font-medium">
                                             <UserCircle className="h-5 w-5 opacity-70" />
                                             Mon profil
                                         </Link>

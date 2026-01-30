@@ -17,11 +17,10 @@ class ProfileController extends Controller
         return Inertia::render('front/profile/index');
     }
 
-    public function edit(Request $request)
+    public function edit()
     {
         return Inertia::render('front/profile/edit', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-            'status' => session('status'),
+            'status' => session('status')
         ]);
     }
 
@@ -63,6 +62,16 @@ class ProfileController extends Controller
 
         return Inertia::render('front/profile/addresses', [
             'addresses' => AddressResource::collection($request->user()->addresses),
+            'countries' => fn() => CountryResource::collection($countries),
+        ]);
+    }
+
+    public function shops(Request $request)
+    {
+        $countries = getCountries();
+
+        return Inertia::render('front/profile/shops', [
+            'shops' => AddressResource::collection($request->user()->addresses),
             'countries' => fn() => CountryResource::collection($countries),
         ]);
     }

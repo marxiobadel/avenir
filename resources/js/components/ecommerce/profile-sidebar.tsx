@@ -7,7 +7,8 @@ import {
     LayoutDashboard,
     MapPin,
     ShieldCheck,
-    Sparkles
+    Store,
+    CalendarCog
 } from "lucide-react";
 import { logout } from "@/routes";
 import profile from "@/routes/profile";
@@ -31,9 +32,15 @@ export default function ProfileSidebar({ className }: { className?: string }) {
     const items: MenuItem[] = [
         {
             title: "Tableau de bord",
-            href: 'profile.index().url',
+            href: profile.index().url,
             icon: LayoutDashboard,
             active: isExact('/profile'),
+        },
+        {
+            title: "Mes boutiques",
+            href: profile.shops().url,
+            icon: Store,
+            active: isActive('/profile/shops'),
         },
         {
             title: "Mes commandes",
@@ -42,22 +49,28 @@ export default function ProfileSidebar({ className }: { className?: string }) {
             active: isActive('/profile/orders'),
         },
         {
+            title: "Mes évènements",
+            href: profile.events().url,
+            icon: CalendarCog,
+            active: isActive('/profile/events'),
+        },
+        {
             title: "Mes données",
-            href: 'profile.edit().url',
+            href: profile.edit().url,
             icon: User,
-            active: isActive('/profile/informations'),
+            active: isActive('/profile/edit'),
         },
         {
             title: "Carnet d'adresses",
-            href: 'profile.addresses().url',
+            href: profile.addresses().url,
             icon: MapPin,
             active: isActive('/profile/addresses'),
         },
         {
             title: "Sécurité & Connexion",
-            href: 'profile.password.edit().url',
+            href: profile.password.edit().url,
             icon: ShieldCheck,
-            active: isActive('/profile/security'),
+            active: isActive('/profile/password'),
             disabled: false
         },
     ];

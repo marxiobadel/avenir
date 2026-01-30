@@ -9,7 +9,7 @@ trait RedirectsUser
         $user = auth()->user();
 
         if ($user && $user->can('access-admin')) {
-            return redirect()->intended(route('dashboard'));
+            return redirect()->intended(route('admin.dashboard'));
         }
 
         return redirect()->intended(route('home'));

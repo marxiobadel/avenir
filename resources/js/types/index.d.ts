@@ -77,8 +77,7 @@ export interface Address {
     id: number;
     alias: string;
     address: string;
-    firstname: string;
-    lastname: string;
+    name: string;
     phone: string;
     city: string;
     street: string;

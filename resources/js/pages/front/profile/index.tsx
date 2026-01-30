@@ -20,9 +20,8 @@ interface PageProps {
     stats: Stats;
 }
 
-export default function ProfileDashboard({ recentOrders, stats }: PageProps) {
+export default function ProfileDashboard() {
     const { auth } = usePage<SharedData>().props;
-    const formatCurrency = useCurrencyFormatter();
 
     return (
         <AppLayout layout="guest">
@@ -42,7 +41,7 @@ export default function ProfileDashboard({ recentOrders, stats }: PageProps) {
                                 </div>
                                 <div>
                                     <p className="text-sm font-medium text-stone-500">Commandes totales</p>
-                                    <p className="text-2xl font-bold text-stone-900 mt-0.5">{stats.orders_count}</p>
+                                    <p className="text-2xl font-bold text-stone-900 mt-0.5">0</p>
                                 </div>
                             </div>
                         </CardContent>
@@ -60,7 +59,7 @@ export default function ProfileDashboard({ recentOrders, stats }: PageProps) {
                                 </div>
                                 <div>
                                     <p className="text-sm font-medium text-stone-500">Total dépensé</p>
-                                    <p className="text-2xl font-bold text-stone-900 mt-0.5">{formatCurrency(stats.total_spent)}</p>
+                                    <p className="text-2xl font-bold text-stone-900 mt-0.5">0 FCFA</p>
                                 </div>
                             </div>
                         </CardContent>
@@ -101,65 +100,7 @@ export default function ProfileDashboard({ recentOrders, stats }: PageProps) {
 
                     <Card className="border-stone-200/60 shadow-none overflow-hidden bg-white/80 backdrop-blur-sm">
                         <CardContent className="p-0">
-                            {recentOrders.length > 0 ? (
-                                <div className="overflow-x-auto">
-                                    <table className="w-full text-sm text-left">
-                                        <thead className="text-xs text-stone-500 uppercase bg-stone-50/80 border-b border-stone-100">
-                                            <tr>
-                                                <th className="px-6 py-4 font-semibold tracking-wider">Référence</th>
-                                                <th className="px-6 py-4 font-semibold tracking-wider">Date</th>
-                                                <th className="px-6 py-4 font-semibold tracking-wider">Statut</th>
-                                                <th className="px-6 py-4 font-semibold tracking-wider">Montant</th>
-                                                <th className="px-6 py-4 text-right font-semibold tracking-wider">Détails</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="divide-y divide-stone-100">
-                                            {recentOrders.map((order) => (
-                                                <tr key={order.id} className="group hover:bg-stone-50/60 transition-colors cursor-pointer">
-                                                    <td className="px-6 py-4 font-medium text-stone-900">
-                                                        <div className="w-max flex items-center gap-3">
-                                                            <div className="h-8 w-8 rounded-full bg-stone-100 flex items-center justify-center text-stone-500 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
-                                                                <Box className="h-4 w-4" />
-                                                            </div>
-                                                            #{order.id.toString().padStart(6, '0')}
-                                                        </div>
-                                                    </td>
-                                                    <td className="px-6 py-4 text-stone-500">
-                                                        <div className="flex items-center gap-2">
-                                                            <Clock className="h-3.5 w-3.5 text-stone-400" />
-                                                            {format(new Date(order.created_at), "d MMM yyyy", { locale: fr })}
-                                                        </div>
-                                                    </td>
-                                                    <td className="px-6 py-4">
-                                                        <StatusBadge status="pending" />
-                                                    </td>
-                                                    <td className="px-6 py-4 font-bold text-stone-900">
-                                                        0 FCFA
-                                                    </td>
-                                                    <td className="px-6 py-4 text-right">
-                                                        <Button variant="ghost" size="icon" asChild className="h-8 w-8 text-stone-400 hover:text-primary hover:bg-primary/5 rounded-full">
-                                                            <Link href={'#'}>
-                                                                <ChevronRight className="h-5 w-5" />
-                                                            </Link>
-                                                        </Button>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            ) : (
-                                <div className="py-16 text-center text-stone-500 flex flex-col items-center justify-center bg-stone-50/30">
-                                    <div className="bg-white p-4 rounded-full shadow-sm mb-4 border border-stone-100">
-                                        <Package className="h-8 w-8 text-stone-300" />
-                                    </div>
-                                    <h3 className="font-semibold text-stone-900 text-lg">Aucune commande</h3>
-                                    <p className="mt-1 mb-8 text-sm max-w-xs mx-auto">Vous n'avez pas encore passé de commande. Explorez notre catalogue pour commencer.</p>
-                                    <Button asChild className="rounded-full px-8 shadow-lg shadow-primary/10">
-                                        <Link href={'products.index()'}>Découvrir nos produits</Link>
-                                    </Button>
-                                </div>
-                            )}
+
                         </CardContent>
                     </Card>
                 </div>
