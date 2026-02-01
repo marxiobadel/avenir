@@ -45,13 +45,11 @@ class UserRequest extends FormRequest
 
             'addresses' => 'nullable|array',
             'addresses.*.alias' => 'required|string|max:255',
-            'addresses.*.firstname' => 'required|string|max:255',
-            'addresses.*.lastname' => 'required|string|max:255',
+            'addresses.*.name' => 'required|string|max:255',
             'addresses.*.phone' => 'nullable|string|max:20',
             'addresses.*.address' => 'required|string|max:255',
             'addresses.*.city' => 'required|string|max:255',
             'addresses.*.state' => 'nullable|string|max:255',
-            'addresses.*.postal_code' => 'nullable|string|max:20',
             'addresses.*.country_id' => 'required|integer|exists:countries,id',
             'addresses.*.is_default' => 'boolean',
         ];

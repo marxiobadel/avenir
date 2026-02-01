@@ -5,13 +5,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Separator } from "../ui/separator";
 import { Link, router, usePage } from "@inertiajs/react";
 import Can from "../can";
-import { about, dashboard, login, logout, register } from "@/routes";
+import { about, login, logout, register } from "@/routes";
 import { SharedData } from "@/types";
 import { useMobileNavigation } from "@/hooks/use-mobile-navigation";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
 import { ScrollArea } from "../ui/scroll-area";
 import { useInitials } from "@/hooks/use-initials";
 import profile from "@/routes/profile";
+import admin from "@/routes/admin";
 
 export const navItems = [
     { label: "Accueil", href: '/' },
@@ -66,7 +67,7 @@ export const MenuProfile = () => {
                                     </Button>
                                     <Can role="superadmin">
                                         <Button asChild variant="ghost" className="w-full">
-                                            <Link href={dashboard()} className="w-full justify-start gap-2 h-9 px-2 font-normal">
+                                            <Link href={admin.dashboard()} className="w-full justify-start gap-2 h-9 px-2 font-normal">
                                                 <SquareActivity className="h-4 w-4 text-stone-500" />
                                                 Administration
                                             </Link>
@@ -148,7 +149,7 @@ export const MenuProfile = () => {
                                     </Button>
                                     <Can role="superadmin">
                                         <Button asChild variant="outline" className="w-full">
-                                            <Link href={dashboard()} className="w-full justify-start gap-3 h-10 rounded-lg text-base font-medium">
+                                            <Link href={admin.dashboard()} className="w-full justify-start gap-3 h-10 rounded-lg text-base font-medium">
                                                 <SquareActivity className="h-5 w-5 opacity-70" />
                                                 Administration
                                             </Link>

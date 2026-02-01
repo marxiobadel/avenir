@@ -200,3 +200,7 @@ export const movementTypeLabels: Record<string, string> = {
     destruction: "Destruction",
     initial: "Initial",
 };
+
+export const userRoles = [
+    { label: 'Super Admin', value: 'superadmin' },
+];

@@ -46,7 +46,7 @@ class UserController extends Controller
         $perPage = $request->integer('per_page', 10);
         $users = $query->paginate($perPage)->withQueryString();
 
-        return Inertia::render('admin/users/index', [
+        return Inertia::render('superadmin/users/index', [
             'users' => UserResource::collection($users)->response()->getData(true),
             'filters' => $request->only(['search', 'status', 'sort', 'per_page']),
         ]);
@@ -56,7 +56,7 @@ class UserController extends Controller
     {
         $countries = getCountries();
 
-        return Inertia::render('admin/users/create', [
+        return Inertia::render('superadmin/users/create', [
             'countries' => CountryResource::collection($countries),
         ]);
     }
@@ -65,7 +65,7 @@ class UserController extends Controller
     {
         $countries = getCountries();
 
-        return Inertia::render('admin/users/edit', [
+        return Inertia::render('superadmin/users/edit', [
             'user' => new UserResource($user->load('addresses')),
             'countries' => CountryResource::collection($countries),
         ]);
@@ -84,7 +84,7 @@ class UserController extends Controller
                     'phone',
                     'address',
                     'is_active',
-                    'password',
+                    'password'
                 ])
             );
 
@@ -96,12 +96,10 @@ class UserController extends Controller
                 foreach ($addresses as $addr) {
                     $user->addresses()->create([
                         'alias' => $addr['alias'] ?? null,
-                        'firstname' => $addr['firstname'] ?? null,
-                        'lastname' => $addr['lastname'] ?? null,
+                        'name' => $addr['name'] ?? null,
                         'phone' => $addr['phone'] ?? null,
                         'city' => $addr['city'] ?? null,
                         'state' => $addr['state'] ?? null,
-                        'postal_code' => $addr['postal_code'] ?? null,
                         'country_id' => $addr['country_id'] ?? null,
                         'address' => $addr['address'] ?? null,
                         'is_default' => $addr['is_default'] ?? false,
@@ -124,7 +122,8 @@ class UserController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.users.index');
+            return redirect()->route('admin.users.index')
+                            ->with('success', "Utilisateur créé avec succès.");
         } catch (\Exception $e) {
             DB::rollBack();
             report($e);
@@ -145,8 +144,7 @@ class UserController extends Controller
                     'email',
                     'phone',
                     'address',
-                    'is_active',
-                    'password',
+                    'is_active'
                 ])
             );
 
@@ -160,12 +158,10 @@ class UserController extends Controller
                 foreach ($addresses as $addr) {
                     $user->addresses()->create([
                         'alias' => $addr['alias'] ?? null,
-                        'firstname' => $addr['firstname'] ?? null,
-                        'lastname' => $addr['lastname'] ?? null,
+                        'name' => $addr['name'] ?? null,
                         'phone' => $addr['phone'] ?? null,
                         'city' => $addr['city'] ?? null,
                         'state' => $addr['state'] ?? null,
-                        'postal_code' => $addr['postal_code'] ?? null,
                         'country_id' => $addr['country_id'] ?? null,
                         'address' => $addr['address'] ?? null,
                         'is_default' => $addr['is_default'] ?? false,
@@ -188,7 +184,8 @@ class UserController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.users.index');
+            return redirect()->route('admin.users.index')
+                            ->with('success', "Utilisateur mis à jour avec succès.");
         } catch (\Throwable $e) {
             DB::rollBack();
             report($e);

@@ -10,32 +10,70 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { Box, Boxes, FileQuestion, LayoutGrid, User2 } from 'lucide-react';
 import AppLogo from './app-logo';
+import admin from '@/routes/admin';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
-        href: dashboard(),
+        title: 'Tableau de bord',
+        href: admin.dashboard().url,
         icon: LayoutGrid,
     },
 ];
 
-const footerNavItems: NavItem[] = [
+const manageNavItems: NavItem[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
+        title: 'Utilisateurs',
+        href: admin.users.index().url,
+        icon: User2,
     },
 ];
+
+const otherNavItems: NavItem[] = [
+    {
+        title: 'FAQs',
+        href: admin.faqs.index().url,
+        icon: FileQuestion,
+    },
+];
+
+const menuItems = { mainNavItems, manageNavItems, otherNavItems };
+
+const shopMainNavItems = (slug: string): NavItem[] => [
+    {
+        title: 'Tableau de bord',
+        href: admin.shop.dashboard(slug).url,
+        icon: LayoutGrid,
+    },
+];
+
+const shopCatalogueNavItems = (slug: string): NavItem[] => [
+    {
+        title: 'Produits',
+        href: admin.shop.products.index(slug).url,
+        icon: Boxes,
+    },
+    {
+        title: 'Stocks',
+        href: admin.shop.inventory.index(slug).url,
+        icon: Box,
+    },
+];
+
+const shopManageNavItems = (slug: string): NavItem[] => [
+    {
+        title: 'Utilisateurs',
+        href: admin.shop.users.index(slug).url,
+        icon: User2,
+    },
+];
+
+const shopMenuItems = { shopMainNavItems, shopCatalogueNavItems, shopManageNavItems };
+
+const footerNavItems: NavItem[] = [];
 
 export function AppSidebar() {
     return (
@@ -44,7 +82,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={dashboard()} prefetch>
+                            <Link href={admin.dashboard()} prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
@@ -53,7 +91,10 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain
+                    menuItems={menuItems}
+                    shopMenuItems={shopMenuItems}
+                />
             </SidebarContent>
 
             <SidebarFooter>

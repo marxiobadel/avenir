@@ -10,7 +10,8 @@ use App\Http\Controllers\Front\{
 use App\Http\Controllers\SuperAdmin\{
     DashboardController as SuperDashboard,
     UserController as SuperUser,
-    CategoryController as SuperCategory
+    CategoryController as SuperCategory,
+    FaqController as SuperFaq
 };
 use App\Http\Controllers\Admin\{
     DashboardController as AdminDashboard,
@@ -58,12 +59,16 @@ Route::middleware(['auth'])->group(function () {
                     Route::resource('users', SuperUser::class)->except(['destroy', 'show']);
                     Route::post('users/destroy', [SuperUser::class, 'destroy'])->name('users.destroy');
                 });
+
                 Route::prefix('{type}')->whereIn('type', CategoryType::values())->group(function () {
                     Route::resource('categories', SuperCategory::class)
                         ->parameters(['' => 'category'])
                         ->only(['index', 'store', 'update']);
                     Route::post('categories/destroy', [SuperCategory::class, 'destroy'])->name('categories.destroy');
                 });
+
+                Route::resource('faqs', SuperFaq::class)->except(['show', 'edit', 'destroy']);
+                Route::post('faqs/destroy', [SuperFaq::class, 'destroy'])->name('faqs.destroy');
             });
 
             Route::prefix('shop/{shop}')->name('shop.')->group(function () {
