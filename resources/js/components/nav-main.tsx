@@ -5,6 +5,9 @@ import Can from './can';
 
 interface MenuItems {
     mainNavItems: NavItem[];
+    shopNavItems: NavItem[];
+    catalogueNavItems: NavItem[];
+    eventNavItems: NavItem[];
     manageNavItems: NavItem[];
     otherNavItems: NavItem[];
 }
@@ -54,6 +57,27 @@ export function NavMain({ menuItems, shopMenuItems }: NavMainProps) {
                 <SidebarGroupLabel>ACCUEIL</SidebarGroupLabel>
                 <SidebarMenu>
                     {renderMenuItems(menuItems.mainNavItems)}
+                </SidebarMenu>
+            </SidebarGroup>
+
+            <SidebarGroup className="px-2 py-0">
+                <SidebarGroupLabel>BOUTIQUES</SidebarGroupLabel>
+                <SidebarMenu>
+                    {renderMenuItems(menuItems.shopNavItems)}
+                </SidebarMenu>
+            </SidebarGroup>
+
+            <SidebarGroup className="px-2 py-0">
+                <SidebarGroupLabel>PRODUITS</SidebarGroupLabel>
+                <SidebarMenu>
+                    {renderMenuItems(menuItems.catalogueNavItems)}
+                </SidebarMenu>
+            </SidebarGroup>
+
+            <SidebarGroup className="px-2 py-0">
+                <SidebarGroupLabel>ÉVÉNEMENTS</SidebarGroupLabel>
+                <SidebarMenu>
+                    {renderMenuItems(menuItems.eventNavItems)}
                 </SidebarMenu>
             </SidebarGroup>
 

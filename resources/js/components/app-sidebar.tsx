@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { Box, Boxes, FileQuestion, LayoutGrid, User2 } from 'lucide-react';
+import { Archive, Box, Boxes, FileQuestion, LayoutGrid, User2 } from 'lucide-react';
 import AppLogo from './app-logo';
 import admin from '@/routes/admin';
 
@@ -21,6 +21,30 @@ const mainNavItems: NavItem[] = [
         title: 'Tableau de bord',
         href: admin.dashboard().url,
         icon: LayoutGrid,
+    },
+];
+
+const shopNavItems: NavItem[] = [
+    {
+        title: 'Catégories',
+        href: admin.categories.index({type: 'shops'}).url,
+        icon: Archive,
+    },
+];
+
+const catalogueNavItems: NavItem[] = [
+    {
+        title: 'Catégories',
+        href: admin.categories.index({type: 'products'}).url,
+        icon: Archive,
+    },
+];
+
+const eventNavItems: NavItem[] = [
+    {
+        title: 'Catégories',
+        href: admin.categories.index({type: 'events'}).url,
+        icon: Archive,
     },
 ];
 
@@ -40,7 +64,14 @@ const otherNavItems: NavItem[] = [
     },
 ];
 
-const menuItems = { mainNavItems, manageNavItems, otherNavItems };
+const menuItems = {
+    mainNavItems,
+    shopNavItems,
+    catalogueNavItems,
+    eventNavItems,
+    manageNavItems,
+    otherNavItems
+};
 
 const shopMainNavItems = (slug: string): NavItem[] => [
     {

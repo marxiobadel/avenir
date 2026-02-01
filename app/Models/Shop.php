@@ -75,6 +75,11 @@ class Shop extends Model implements HasMedia, Sitemapable
         return $this->belongsTo(Country::class);
     }
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     public function toSitemapTag(): Url|string|array
     {
         return Url::create(route('shops.show', [$this->slug]))

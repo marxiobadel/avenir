@@ -102,6 +102,9 @@ export interface Category {
     shops: Product[];
     products: Product[];
     events: Product[];
+    products_count?: number;
+    shops_count?: number;
+    events_count?: number;
     parent_id: number | null;
     parent: Category; // For nested categories
     created_at: string;

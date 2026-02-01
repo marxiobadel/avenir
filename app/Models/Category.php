@@ -72,9 +72,29 @@ class Category extends Model implements HasMedia
         return $query->where('type', '=', 'products');
     }
 
+    public function scopeForShop($query)
+    {
+        return $query->where('type', '=', 'shops');
+    }
+
+    public function scopeForEvent($query)
+    {
+        return $query->where('type', '=', 'events');
+    }
+
+    public function shops()
+    {
+        return $this->hasMany(Shop::class);
+    }
+
     public function products()
     {
         return $this->belongsToMany(Product::class);
+    }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class);
     }
 
     public function parent()

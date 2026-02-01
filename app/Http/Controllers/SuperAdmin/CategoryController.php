@@ -43,7 +43,7 @@ class CategoryController extends Controller
 
         $listCategories = Category::where('type', '=', $type)->get();
 
-        return Inertia::render("admin/{$type}/categories/index", [
+        return Inertia::render("superadmin/{$type}/categories/index", [
             'categories' => CategoryResource::collection($categories)->response()->getData(true),
             'filters' => $request->only(['search', 'status', 'sort', 'per_page']),
             'listCategories' => CategoryResource::collection($listCategories),
