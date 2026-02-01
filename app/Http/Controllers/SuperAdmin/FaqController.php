@@ -41,7 +41,7 @@ class FaqController extends Controller
         $perPage = $request->integer('per_page', 10);
         $faqs = $query->paginate($perPage)->withQueryString();
 
-        return Inertia::render('admin/faq/index', [
+        return Inertia::render('superadmin/faq/index', [
             'faqs' => FaqResource::collection($faqs)->response()->getData(true),
             'filters' => $request->only(['search', 'status', 'sort', 'per_page']),
         ]);

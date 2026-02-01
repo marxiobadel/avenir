@@ -81,6 +81,6 @@ export default function Create({ countries }: PageProps) {
                     inertiaSetData={setData}
                 />
             </div>
-        </AppLayout >
+        </AppLayout>
     );
 }

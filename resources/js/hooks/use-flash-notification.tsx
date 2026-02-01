@@ -1,8 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { usePage } from '@inertiajs/react';
-import { toast } from 'sonner'; // or 'react-hot-toast' / 'react-toastify'
+import { toast } from 'sonner';
 
-// Define the shape of your flash data
 interface FlashMessages {
     success?: string;
     warning?: string;
@@ -11,13 +10,20 @@ interface FlashMessages {
 }
 
 export const useFlashNotifications = () => {
+    // Récupération sécurisée des props flash depuis Inertia
     const { flash } = usePage<{ flash: FlashMessages }>().props;
+
+    // Le useRef doit toujours être déclaré avant toute logique conditionnelle ou useEffect
+    const lastDisplayedMessage = useRef<string | null>(null);
 
     useEffect(() => {
         const types: Array<keyof FlashMessages> = ['success', 'warning', 'error', 'info'];
 
         types.forEach((type) => {
-            if (flash[type]) {
+            const message = flash[type];
+
+            // On ne déclenche le toast que si le message existe et est différent du dernier
+            if (message && message !== lastDisplayedMessage.current) {
                 const title = {
                     success: 'Succès !',
                     warning: 'Avertissement !',
@@ -29,11 +35,19 @@ export const useFlashNotifications = () => {
                     <div className="flex flex-col">
                         <span className="font-semibold text-foreground">{title}</span>
                         <span className="text-sm text-muted-foreground">
-                            {flash[type]}
+                            {message}
                         </span>
                     </div>
                 );
+
+                // Enregistrement du message pour éviter la répétition au prochain rendu
+                lastDisplayedMessage.current = message;
+            }
+
+            // Si le message devient nul (Inertia vide les flashs), on réinitialise la référence
+            if (!message && lastDisplayedMessage.current === flash[type]) {
+                lastDisplayedMessage.current = null;
             }
         });
-    }, [flash]);
+    }, [flash]); // Dépendance directe sur l'objet flash d'Inertia
 };

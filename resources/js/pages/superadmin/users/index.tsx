@@ -318,16 +318,6 @@ export default function Index({ users, filters }: PageProps) {
                         { ids },
                         {
                             preserveState: true,
-                            onSuccess: () => {
-                                toast.success(
-                                    <div className="flex flex-col">
-                                        <span className="font-semibold text-foreground">Succès</span>
-                                        <span className="text-sm text-muted-foreground">
-                                            Les utilisateurs sélectionnés ont été supprimés.
-                                        </span>
-                                    </div>
-                                );
-                            },
                             onError: (errors: any) => {
                                 const messages: string[] = [];
 

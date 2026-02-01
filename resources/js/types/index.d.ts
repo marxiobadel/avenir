@@ -352,6 +352,15 @@ export interface Payment {
     updated_at: string;
 }
 
+export interface Faq {
+    id: number;
+    question: string;
+    answer: string;
+    status: boolean;
+    created_at: string;
+    updated_at: string;
+}
+
 export interface PaginationMeta {
     current_page: number;
     last_page: number;
