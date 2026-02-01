@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Http\Resources\AuthUserResource;
+use App\Settings\GeneralSettings;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Illuminate\Support\Number;
@@ -40,6 +41,8 @@ class HandleInertiaRequests extends Middleware
     {
         [$message, $author] = str(Inspiring::quotes()->random())->explode('-');
 
+        $settings = app(GeneralSettings::class);
+
         return [
             ...parent::share($request),
             'name' => config('app.name'),
@@ -49,6 +52,19 @@ class HandleInertiaRequests extends Middleware
             ],
             'isAdminSection' => $request->is('admin*'),
             'defaultCurrency' => Number::defaultCurrency(),
+            'settings' => [
+                'address' => $settings->address,
+                'email' => $settings->email,
+                'phone' => $settings->phone,
+                'facebook_url' => $settings->facebook_url,
+                'instagram_url' => $settings->instagram_url,
+                'linkedin_url' => $settings->linkedin_url,
+                'twitter_url' => $settings->twitter_url,
+                'youtube_url' => $settings->youtube_url,
+                'headoffice' => $settings->headoffice,
+                'registration' => $settings->registration,
+                'taxpayer_number' => $settings->taxpayer_number,
+            ],
             'flash' => [
                 'info' => fn() => $request->session()->get('info'),
                 'success' => fn() => $request->session()->get('success'),

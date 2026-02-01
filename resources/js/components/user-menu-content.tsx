@@ -42,7 +42,7 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
                 <DropdownMenuItem asChild>
                     <Link
                         className="block w-full"
-                        href={"admin.settings.page({ page: 'general' }).url"}
+                        href={admin.settings.page({ page: 'general' })}
                         as="button"
                         prefetch
                         onClick={cleanup}

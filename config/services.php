@@ -42,4 +42,30 @@ return [
         ['uri' => 'legal', 'action' => 'legal', 'name' => 'legal'],
         ['uri' => 'cgv', 'action' => 'cgv', 'name' => 'cgv'],
     ],
+
+    'admin_settings_routes' => [
+        'general',
+        'account',
+    ],
+
+    'admin_settings' => [
+        'address',
+        'email',
+        'phone',
+        'facebook_url',
+        'instagram_url',
+        'linkedin_url',
+        'twitter_url',
+        'youtube_url',
+        'headoffice',
+        'registration',
+        'taxpayer_number',
+    ],
+
+    'shop_settings_routes' => [
+        'general',
+        'account',
+        'products',
+        'orders',
+    ],
 ];

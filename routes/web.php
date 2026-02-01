@@ -11,7 +11,8 @@ use App\Http\Controllers\SuperAdmin\{
     DashboardController as SuperDashboard,
     UserController as SuperUser,
     CategoryController as SuperCategory,
-    FaqController as SuperFaq
+    FaqController as SuperFaq,
+    ProfileController as SuperProfile
 };
 use App\Http\Controllers\Admin\{
     DashboardController as AdminDashboard,
@@ -69,6 +70,15 @@ Route::middleware(['auth'])->group(function () {
 
                 Route::resource('faqs', SuperFaq::class)->except(['show', 'edit', 'destroy']);
                 Route::post('faqs/destroy', [SuperFaq::class, 'destroy'])->name('faqs.destroy');
+
+                Route::redirect('/settings', '/admin/settings/general', 301);
+                Route::prefix('settings')->name('settings.')
+                    ->whereIn('page', config('services.admin_settings_routes'))
+                    ->controller(SuperProfile::class)
+                    ->group(function () {
+                        Route::get('{page}', 'settings')->name('page');
+                        Route::post('{page}', 'update')->name('update');
+                    });
             });
 
             Route::prefix('shop/{shop}')->name('shop.')->group(function () {
