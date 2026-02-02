@@ -144,6 +144,8 @@ export type StatusValue = 'draft' | 'published' | string;
 
 export interface Shop {
     id: number;
+    category_id: number | null;
+    category?: Category;
     name: string;
     slug: string;
     slogan: string | null;
@@ -174,6 +176,7 @@ export interface Shop {
         is_active: boolean;
         status: StatusValue;
         rating: number;
+        product_type: string;
     };
 
     opening_hours: OpeningHours | null;

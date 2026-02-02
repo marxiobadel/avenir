@@ -23,6 +23,7 @@ class ShopResource extends JsonResource
 
         return [
             'id' => $this->id,
+            'category_id' => $this->category_id,
             'name' => $this->name,
             'slug' => $this->slug,
             'slogan' => $this->slogan,
@@ -55,6 +56,7 @@ class ShopResource extends JsonResource
                 'is_featured' => (bool) $this->is_featured,
                 'is_active' => (bool) $this->is_active,
                 'status' => $this->status,
+                'product_type' => $this->product_type,
                 'rating' => $this->rating_cache,
             ],
 

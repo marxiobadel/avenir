@@ -13,12 +13,20 @@ class ShopController extends Controller
     {
         $validated = $request->validated();
 
+        Shop::create($validated);
+
         return back()->with('success', 'Boutique créée avec succès !');
     }
 
     public function update(ShopRequest $request, Shop $shop)
     {
         $validated = $request->validated();
+
+        if (! auth()->user()->hasShopRole($shop, 'admin')) {
+            return back()->with('error', 'Vous n\'êtes pas autorisé à modifier cette boutique.');
+        }
+
+        $shop->update($validated);
 
         return back()->with('success', 'Boutique mise à jour avec succès.');
     }

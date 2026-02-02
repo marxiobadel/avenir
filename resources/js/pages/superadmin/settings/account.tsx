@@ -13,7 +13,7 @@ import verification from '@/routes/verification';
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Mon compte',
-        href: admin.settings.page({ page: 'account' }).url,
+        href: '#',
     },
 ];
 

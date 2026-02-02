@@ -204,3 +204,7 @@ export const movementTypeLabels: Record<string, string> = {
 export const userRoles = [
     { label: 'Super Admin', value: 'superadmin' },
 ];
+
+export const productTypes = [
+    { label: 'Physique / Matériel', value: 'physical' }
+];

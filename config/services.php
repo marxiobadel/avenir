@@ -46,6 +46,7 @@ return [
     'admin_settings_routes' => [
         'general',
         'account',
+        'appearance',
     ],
 
     'admin_settings' => [

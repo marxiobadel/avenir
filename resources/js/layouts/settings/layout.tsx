@@ -6,6 +6,7 @@ import { useEffect, useState, type PropsWithChildren } from 'react';
 const baseMenu = [
     { id: 'general', label: 'Général' },
     { id: 'account', label: 'Mon compte' },
+    { id: 'appearance', label: 'Apparence' },
 ];
 
 export default function SettingsLayout({ children }: PropsWithChildren) {

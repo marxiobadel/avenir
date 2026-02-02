@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AddressResource;
+use App\Http\Resources\CategoryResource;
 use App\Http\Resources\CountryResource;
+use App\Http\Resources\ShopResource;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
@@ -68,11 +72,17 @@ class ProfileController extends Controller
 
     public function shops(Request $request)
     {
-        $countries = getCountries();
+        $shops = Auth::user()->shops()
+            ->with(['owner', 'category'])
+            ->latest()
+            ->paginate($request->input('per_page', 10))
+            ->withQueryString();
+
+        $categories = Category::forShop()->oldest('name')->get();
 
         return Inertia::render('front/profile/shops', [
-            'shops' => AddressResource::collection($request->user()->addresses),
-            'countries' => fn() => CountryResource::collection($countries),
+            'shops' => ShopResource::collection($shops),
+            'categories' => fn() => CategoryResource::collection($categories),
         ]);
     }
 

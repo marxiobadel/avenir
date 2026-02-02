@@ -20,7 +20,11 @@ class ShopRequest extends FormRequest
     public function rules(): array
     {
         return [
-
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:1000',
+            'category_id' => 'required|exists:categories,id',
+            'status' => 'required|in:draft,published',
+            'product_type' => 'required|string|max:255',
         ];
     }
 }

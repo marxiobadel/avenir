@@ -84,8 +84,10 @@ Route::middleware(['auth'])->group(function () {
             Route::prefix('shop/{shop}')->name('shop.')->group(function () {
                 Route::get('dashboard', [AdminDashboard::class, 'index'])->name('dashboard');
 
-                Route::resource('users', AdminUser::class)->except(['destroy', 'show']);
-                Route::post('users/destroy', [AdminUser::class, 'destroy'])->name('users.destroy');
+                Route::middleware('shop.role:admin')->group(function () {
+                    Route::resource('users', AdminUser::class)->except(['destroy', 'show']);
+                    Route::post('users/destroy', [AdminUser::class, 'destroy'])->name('users.destroy');
+                });
 
                 Route::resource('products', AdminProduct::class)->except(['destroy', 'show']);
                 Route::post('products/destroy', [AdminProduct::class, 'destroy'])->name('products.destroy');

@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Observers\ShopObserver;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +18,7 @@ use Spatie\Sitemap\Tags\Url;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
+#[ObservedBy([ShopObserver::class])]
 class Shop extends Model implements HasMedia, Sitemapable
 {
     use HasFactory, HasSlug, SoftDeletes, InteractsWithMedia;
@@ -78,6 +81,11 @@ class Shop extends Model implements HasMedia, Sitemapable
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
     }
 
     public function toSitemapTag(): Url|string|array

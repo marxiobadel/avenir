@@ -31,6 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+            'shop.role' => \App\Http\Middleware\CheckShopRole::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
@@ -41,7 +42,7 @@ return Application::configure(basePath: dirname(__DIR__))
                     ->setStatusCode($response->getStatusCode());
             } elseif ($response->getStatusCode() === 419) {
                 return back()->with([
-                    'info' => __('La page a expiré, merci de réessayer plutard.'),
+                    'info' => __('La page a expiré, merci de recharger votre page.'),
                 ]);
             }
 
